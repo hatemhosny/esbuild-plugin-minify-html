@@ -1,35 +1,30 @@
-# esbuild-plugin-raw-css
+# esbuild-plugin-minify-html
 
-esbuild plugin for importing css files as minified raw text.
+esbuild plugin for importing html files as minified raw text.
+
+It uses [html-minifier-terser](https://github.com/terser/html-minifier-terser) to minify the html.
 
 ## Usage
 
-```css
-/* base.css */
-.one {
-  background-color: "#fff";
-}
-```
-
 ```js
 // index.js
-import base from "./base.css?raw";
-console.log(base); // ".one{background-color:"#fff"}\n"
+import appHTML from "./app.html?raw";
+console.log(appHTML);
 ```
 
 ```js
 // build.js
 import esbuild from "esbuild";
-import rawCssPlugin from "esbuild-plugin-raw-css";
+import minifyHTML from "esbuild-plugin-minify-html";
 
 esbuild.build({
   entryPoints: ["index.js"],
   bundle: true,
   outfile: "out.js",
   plugins: [
-    rawCssPlugin({
-      // optional
-      minify: false,
+    minifyHTML({
+      // optional html-minifier-terser options
+      collapseWhitespace: true,
     }),
   ],
 });
@@ -37,20 +32,15 @@ esbuild.build({
 
 ## With typescript
 
-Add type declaration for `*.css?raw` in your project.
+Add type declaration for `*.html?raw` in your project.
 
 ```ts
-declare module "*.css?raw" {
+declare module "*.html?raw" {
   const src: string;
   export default src;
 }
 ```
 
-## API Reference
+## Credit
 
-```ts
-type RawCssPluginOptions = {
-  /** if minify css text @default true */
-  minify?: boolean;
-};
-```
+This is a fork of [esbuild-plugin-raw-css](https://github.com/Debonex/esbuild-plugin-raw-css).

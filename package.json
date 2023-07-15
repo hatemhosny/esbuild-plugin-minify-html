@@ -1,8 +1,8 @@
 {
-  "name": "esbuild-plugin-raw-css",
+  "name": "esbuild-plugin-minify-html",
   "version": "0.1.0",
-  "description": "esbuild plugin for importing css files as minified raw text.",
-  "author": "Debonex<debonexx@gmail.com>",
+  "description": "esbuild plugin for importing html files as minified raw text.",
+  "author": "Hatem Hosny",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -17,13 +17,13 @@
   "keywords": [
     "esbuild",
     "esbuild-plugin",
-    "css",
+    "html",
     "raw",
     "minify"
   ],
-  "repository": "https://github.com/Debonex/esbuild-plugin-raw-css.git",
-  "homepage": "https://github.com/Debonex/esbuild-plugin-raw-css",
-  "bugs": "https://github.com/Debonex/esbuild-plugin-raw-css/issues",
+  "repository": "https://github.com/hatemhosny/esbuild-plugin-minify-html.git",
+  "homepage": "https://github.com/hatemhosny/esbuild-plugin-minify-html",
+  "bugs": "https://github.com/hatemhosny/esbuild-plugin-minify-html/issues",
   "scripts": {
     "build": "tsup src/index.ts --dts --format cjs,esm --clean",
     "example": "yarn build && cd example && node build.mjs",
@@ -33,9 +33,11 @@
     "esbuild": "^0.14.36 || ^0.15.0 || ^0.16.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
-    "esbuild": "^0.17.2",
-    "tsup": "^6.5.0",
-    "typescript": "^4.9.4"
+    "@types/html-minifier-terser": "^7.0.0",
+    "@types/node": "18.11.18",
+    "esbuild": "0.17.2",
+    "html-minifier-terser": "7.2.0",
+    "tsup": "6.5.0",
+    "typescript": "4.9.4"
   }
 }

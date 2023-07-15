@@ -1,20 +1,17 @@
 import type { Plugin } from "esbuild";
-import { transform } from "esbuild";
+import type { Options } from "html-minifier-terser";
+import { minify } from "html-minifier-terser";
 import { readFile } from "fs/promises";
 import path from "path";
 
-const pluginNamespace = "raw-css-loader";
+export type MinifyHTMLOptions = Options;
 
-type RawCssPluginOptions = {
-  /** if minify css text @default true */
-  minify?: boolean;
-};
-
-const rawCssPlugin = (options?: RawCssPluginOptions): Plugin => {
+const pluginNamespace = "minified-html-loader";
+const minifyHtmlPlugin = (options?: Options): Plugin => {
   return {
-    name: "raw-css",
+    name: "minified-html",
     setup: (build) => {
-      build.onResolve({ filter: /\.css\?raw$/ }, (args) => {
+      build.onResolve({ filter: /\.htm(?:l)?\?raw$/ }, (args) => {
         return {
           namespace: pluginNamespace,
           path: args.path,
@@ -25,27 +22,17 @@ const rawCssPlugin = (options?: RawCssPluginOptions): Plugin => {
       });
 
       build.onLoad(
-        { filter: /\.css\?raw$/, namespace: pluginNamespace },
+        { filter: /\.htm(?:l)?\?raw$/, namespace: pluginNamespace },
         async (args) => {
           const fullPath = path.isAbsolute(args.path)
             ? args.path
             : path.resolve(args.pluginData.resolveDir, args.path);
-
-          const rawText = await readFile(fullPath.replace(/\?raw$/, ""));
-          const minify = options?.minify ?? true;
-          let contents: string;
-          if (minify) {
-            contents = (
-              await transform(rawText, {
-                loader: "css",
-                minify: true,
-              })
-            ).code;
-          } else {
-            contents = rawText.toString();
-          }
+          const rawText = await readFile(fullPath.replace(/\?raw$/, ""), {
+            encoding: "utf8",
+          });
+          const contents = await minify(rawText, options);
           return {
-            contents: contents,
+            contents,
             loader: "text",
           };
         }
@@ -54,4 +41,4 @@ const rawCssPlugin = (options?: RawCssPluginOptions): Plugin => {
   };
 };
 
-export default rawCssPlugin;
+export default minifyHtmlPlugin;
