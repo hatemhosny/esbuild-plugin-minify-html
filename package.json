@@ -1,6 +1,6 @@
 {
   "name": "esbuild-plugin-minify-html",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "esbuild plugin for importing html files as minified raw text.",
   "author": "Hatem Hosny",
   "license": "MIT",
@@ -28,9 +28,6 @@
     "build": "tsup src/index.ts --dts --format cjs,esm --clean",
     "example": "yarn build && cd example && node build.mjs",
     "build:example": "cd example && node build.mjs"
-  },
-  "peerDependencies": {
-    "esbuild": "^0.14.36 || ^0.15.0 || ^0.16.0"
   },
   "devDependencies": {
     "@types/html-minifier-terser": "^7.0.0",
