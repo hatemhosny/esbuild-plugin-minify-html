@@ -42,3 +42,4 @@ const minifyHtmlPlugin = (options?: Options): Plugin => {
 };
 
 export default minifyHtmlPlugin;
+export { minify };
